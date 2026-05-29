@@ -33,7 +33,7 @@
                     <i class="bi bi-plus-lg"></i> Thêm mới
                 </a>
 
-                <!-- Search Panel -->
+                <!-- Bảng tìm kiếm -->
                 <form th:action="@{/giao-dich/search}" method="get" class="search-form">
                     <select name="loai" class="form-select">
                         <option value="">Chọn loại bất động sản</option>
@@ -47,7 +47,7 @@
                         <i class="bi bi-search"></i> Tìm kiếm
                     </button>
                     
-                    <!-- Clear filters if searched -->
+                    <!-- Xóa bộ lọc nếu được tìm kiếm -->
                     <a th:if="${(ten != null && !ten.isEmpty()) || (loai != null && !loai.isEmpty())}" 
                        th:href="@{/giao-dich}" class="btn btn-secondary">
                         <i class="bi bi-arrow-clockwise"></i> Xóa bộ lọc
@@ -56,13 +56,13 @@
             </div>
         </div>
 
-        <!-- Success Alert -->
+        <!-- Cảnh báo thành công-->
         <div th:if="${param.success != null}" class="success-alert">
             <i class="bi bi-check-circle-fill"></i>
             Thêm mới giao dịch thành công!
         </div>
 
-        <!-- Table Content -->
+        <!-- Nội dung bảng-->
         <div class="table-responsive">
             <table th:if="${list != null && !list.isEmpty()}">
                 <thead>

@@ -11,7 +11,7 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
-    <!-- Link to external stylesheet -->
+    <!-- Liên kết đến biểu định kiểu bên ngoài -->
     <link rel="stylesheet" th:href="@{/css/form.css}">
 </head>
 <body>
@@ -20,23 +20,23 @@
     <!-- Title -->
     <h1 class="form-title">Thêm mới giao dịch</h1>
 
-    <!-- Validation Error banner -->
+    <!-- Biểu ngữ Lỗi xác thực -->
     <div class="error-alert" th:if="${error != null}">
         <i class="bi bi-exclamation-triangle-fill"></i>
         <span th:text="${error}">Thông tin nhập chưa hợp lệ!</span>
     </div>
 
-    <!-- Form content -->
+    <!-- Nội dung biểu mẫu -->
     <form th:action="@{/giao-dich/add}" th:object="${dto}" method="post">
         
-        <!-- Row 1: Transaction Code -->
+        <!-- Row 1:Mã giao dịch -->
         <div class="form-row">
             <label class="form-label" for="maGiaoDich">Mã giao dịch</label>
             <input type="text" id="maGiaoDich" th:field="*{maGiaoDich}" class="form-input" 
                    placeholder="Nhập mã giao dịch (VD: MGD-0004)" required autocomplete="off">
         </div>
 
-        <!-- Row 2: Customer Name dropdown -->
+        <!-- Hàng 2: Danh sách thả xuống Tên khách hàng -->
         <div class="form-row">
             <label class="form-label" for="maKhachHang">Tên khách hàng</label>
             <select id="maKhachHang" th:field="*{maKhachHang}" class="form-input" required>
@@ -47,7 +47,7 @@
             </select>
         </div>
 
-        <!-- Row 3: Property Type radio buttons -->
+        <!-- Hàng 3: Các nút radio Loại tài sản -->
         <div class="form-row">
             <label class="form-label">Loại bất động sản</label>
             <div class="radio-group">
@@ -62,13 +62,13 @@
             </div>
         </div>
 
-        <!-- Row 4: Transaction Date -->
+        <!--Transaction Date -->
         <div class="form-row">
             <label class="form-label" for="ngayGiaoDich">Ngày giao dịch</label>
             <input type="date" id="ngayGiaoDich" th:field="*{ngayGiaoDich}" class="form-input" required>
         </div>
 
-        <!-- Row 5: Unit Price -->
+        <!--  Unit Price -->
         <div class="form-row">
             <label class="form-label" for="donGia">Đơn giá (VND)</label>
             <input type="number" id="donGia" th:field="*{donGia}" step="any" min="0" class="form-input" required>

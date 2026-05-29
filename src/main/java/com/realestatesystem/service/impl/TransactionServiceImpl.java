@@ -1,33 +1,33 @@
 package com.realestatesystem.service.impl;
 
-import com.realestatesystem.model.GiaoDich;
-import com.realestatesystem.repository.GiaoDichRepository;
-import com.realestatesystem.service.GiaoDichService;
+import com.realestatesystem.model.Transaction;
+import com.realestatesystem.repository.TransactionRepository;
+import com.realestatesystem.service.TransactionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class GiaoDichServiceImpl implements GiaoDichService {
+public class TransactionServiceImpl implements TransactionService {
 
-    private final GiaoDichRepository repository;
+    private final TransactionRepository repository;
 
-    public GiaoDichServiceImpl(GiaoDichRepository repository) {
+    public TransactionServiceImpl(TransactionRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public List<GiaoDich> findAll() {
+    public List<Transaction> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public GiaoDich findById(String id) {
+    public Transaction findById(String id) {
         return repository.findById(id).orElse(null);
     }
 
     @Override
-    public void save(GiaoDich giaoDich) {
+    public void save(Transaction giaoDich) {
         repository.save(giaoDich);
     }
 
@@ -36,8 +36,10 @@ public class GiaoDichServiceImpl implements GiaoDichService {
         repository.deleteById(id);
     }
 
+
+    //Phương thức này có nhiệm vụ chính là tìm kiếm danh sách giao dịch (GiaoDich) theo điều kiện linh hoạt do người dùng nhập vào.
     @Override
-    public List<GiaoDich> search(String ten, String loai) {
+    public List<Transaction> search(String ten, String loai) {
         boolean hasTen = ten != null && !ten.trim().isEmpty();
         boolean hasLoai = loai != null && !loai.trim().isEmpty();
 

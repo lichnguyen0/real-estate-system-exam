@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "khach_hang")
 @Data
 @NoArgsConstructor
-public class KhachHang {
+public class Customer {
     @Id
     private String maKhachHang;
 

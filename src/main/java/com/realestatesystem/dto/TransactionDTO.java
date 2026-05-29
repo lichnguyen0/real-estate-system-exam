@@ -3,7 +3,7 @@ package com.realestatesystem.dto;
 import lombok.Data;
 
 @Data
-public class GiaoDichDTO {
+public class TransactionDTO {
     private String maGiaoDich;
     private String maKhachHang;
     private String loaiDichVu;

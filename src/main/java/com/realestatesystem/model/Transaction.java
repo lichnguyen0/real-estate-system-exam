@@ -10,14 +10,14 @@ import java.time.LocalDate;
 @Table(name = "giao_dich")
 @Data
 @NoArgsConstructor
-public class GiaoDich {
+public class Transaction {
 
     @Id
     private String maGiaoDich;
 
     @ManyToOne
     @JoinColumn(name = "ma_khach_hang")
-    private KhachHang khachHang;
+    private Customer khachHang;
 
     private String loaiDichVu;
 

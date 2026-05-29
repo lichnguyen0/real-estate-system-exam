@@ -1,11 +1,11 @@
 package com.realestatesystem.controller;
 
-import com.realestatesystem.dto.GiaoDichDTO;
-import com.realestatesystem.model.GiaoDich;
-import com.realestatesystem.model.KhachHang;
-import com.realestatesystem.repository.KhachHangRepository;
-import com.realestatesystem.service.GiaoDichService;
-import com.realestatesystem.validator.GiaoDichValidator;
+import com.realestatesystem.dto.TransactionDTO;
+import com.realestatesystem.model.Transaction;
+import com.realestatesystem.model.Customer;
+import com.realestatesystem.repository.CustomerRepository;
+import com.realestatesystem.service.TransactionService;
+import com.realestatesystem.validator.TransactionValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +16,12 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/giao-dich")
-public class GiaoDichController {
+public class TransactionController {
 
-    private final GiaoDichService service;
-    private final KhachHangRepository khachHangRepository;
+    private final TransactionService service;
+    private final CustomerRepository khachHangRepository;
 
-    public GiaoDichController(GiaoDichService service, KhachHangRepository khachHangRepository) {
+    public TransactionController(TransactionService service, CustomerRepository khachHangRepository) {
         this.service = service;
         this.khachHangRepository = khachHangRepository;
     }
@@ -48,10 +48,7 @@ public class GiaoDichController {
     public String search(@RequestParam(required = false) String ten,
                          @RequestParam(required = false) String loai,
                          Model model) {
-        System.out.println("[DEBUG SEARCH] Received params -> ten: '" + ten + "', loai: '" + loai + "'");
-        List<GiaoDich> result = service.search(ten, loai);
-        System.out.println("[DEBUG SEARCH] Query returned " + (result != null ? result.size() : 0) + " records.");
-        
+        List<Transaction> result = service.search(ten, loai);
         model.addAttribute("list", result);
         model.addAttribute("ten", ten);
         model.addAttribute("loai", loai);
@@ -61,29 +58,29 @@ public class GiaoDichController {
 
     @GetMapping("/add")
     public String addForm(Model model) {
-        model.addAttribute("dto", new GiaoDichDTO());
+        model.addAttribute("dto", new TransactionDTO());
         model.addAttribute("customers", khachHangRepository.findAll());
         return "giao-dich/form";
     }
 
     @PostMapping("/add")
-    public String addSubmit(@ModelAttribute("dto") GiaoDichDTO dto, Model model) {
-        // Validation check
-        String errorMsg = GiaoDichValidator.validate(dto);
+    public String addSubmit(@ModelAttribute("dto") TransactionDTO dto, Model model) {
+        // Kiểm tra xác thực
+        String errorMsg = TransactionValidator.validate(dto);
         if (errorMsg != null) {
             model.addAttribute("error", errorMsg);
             model.addAttribute("customers", khachHangRepository.findAll());
             return "giao-dich/form";
         }
 
-        // Validate ID unique
+        // Xác thực ID duy nhất
         if (service.findById(dto.getMaGiaoDich()) != null) {
             model.addAttribute("error", "Mã giao dịch đã tồn tại trên hệ thống!");
             model.addAttribute("customers", khachHangRepository.findAll());
             return "giao-dich/form";
         }
 
-        // Date check
+        // Kiểm tra ngày
         LocalDate parsedDate;
         try {
             if (dto.getNgayGiaoDich() == null || dto.getNgayGiaoDich().isEmpty()) {
@@ -103,15 +100,15 @@ public class GiaoDichController {
             return "giao-dich/form";
         }
 
-        // Convert DTO to Entity
-        GiaoDich gd = new GiaoDich();
+        // Chuyển đổi DTO sang thực thể
+        Transaction gd = new Transaction();
         gd.setMaGiaoDich(dto.getMaGiaoDich());
         gd.setLoaiDichVu(dto.getLoaiDichVu());
         gd.setDonGia(dto.getDonGia());
         gd.setDienTich(dto.getDienTich());
         gd.setNgayGiaoDich(parsedDate);
 
-        KhachHang kh = khachHangRepository.findById(dto.getMaKhachHang()).orElse(null);
+        Customer kh = khachHangRepository.findById(dto.getMaKhachHang()).orElse(null);
         if (kh == null) {
             model.addAttribute("error", "Vui lòng chọn khách hàng hợp lệ!");
             model.addAttribute("customers", khachHangRepository.findAll());
