@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết giao dịch</title>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Link to external stylesheet -->
+    <link rel="stylesheet" th:href="@{/css/detail.css}">
+</head>
+<body>
+
+<div class="container">
+    <div th:if="${gd != null}">
+        <!-- Title centered -->
+        <h1 class="form-title">Chi tiết giao dịch</h1>
+
+        <!-- Info Grid matching detail.png -->
+        <div class="detail-row">
+            <span class="detail-label">Mã giao dịch</span>
+            <span class="detail-value" th:text="${gd.maGiaoDich}">MGD-001</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Loại bất động sản</span>
+            <span class="detail-value" th:text="${gd.loaiDichVu}">Nhà Đất</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Ngày giao dịch</span>
+            <span class="detail-value" th:text="${gd.ngayGiaoDich != null ? #temporals.format(gd.ngayGiaoDich, 'dd/MM/yyyy') : ''}">12/12/2019</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Đơn giá (VND)</span>
+            <span class="detail-value" th:text="${#numbers.formatDecimal(gd.donGia, 0, 'POINT', 0, 'POINT')}">2.000.000</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Diện tích (m2)</span>
+            <span class="detail-value" th:text="${#numbers.formatDecimal(gd.dienTich, 0, 'POINT', 0, 'POINT')}">100</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Tên khách hàng</span>
+            <span class="detail-value" th:text="${gd.khachHang != null ? gd.khachHang.tenKhachHang : ''}">Nguyễn Văn A</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Số điện thoại</span>
+            <span class="detail-value" th:text="${gd.khachHang != null ? gd.khachHang.soDienThoai : ''}">0905973155</span>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-label">Email</span>
+            <span class="detail-value" th:text="${gd.khachHang != null ? gd.khachHang.email : ''}">nguyenvana@gmail.com</span>
+        </div>
+
+        <!-- Các nút ở giữa ở dưới cùng -->
+        <div class="btn-group-centered">
+            <button id="btn-delete" class="btn btn-yellow">Xóa</button>
+            <a th:href="@{/giao-dich}" class="btn btn-blue">Quay lại</a>
+        </div>
+
+        <!-- Phông nền phương thức xác nhận tùy chỉnh -->
+        <div id="confirm-modal" class="modal-backdrop">
+            <div class="modal-content">
+                <div class="modal-text">Bạn có muốn xóa giao dịch này không?</div>
+                <div class="modal-btn-group">
+                    <a th:href="@{/giao-dich/delete/{id}(id=${gd.maGiaoDich})}" class="btn btn-blue btn-modal">Có</a>
+                    <button id="btn-cancel-modal" class="btn btn-gray btn-modal">Không</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trạng thái lỗi nếu không tìm thấy -->
+    <div th:if="${gd == null}" style="text-align: center; padding: 4rem 1.5rem;">
+        <h2 style="font-size: 1.5rem; color: #dc2626; margin-bottom: 1rem;">Không tìm thấy giao dịch!</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">Giao dịch bạn đang truy cập không tồn tại hoặc đã bị xóa.</p>
+        <a th:href="@{/giao-dich}" class="btn btn-blue">Quay lại danh sách</a>
+    </div>
+</div>
+
+<!-- Liên kết đến javascript bên ngoài ở dưới cùng của thân máy -->
+<script th:src="@{/js/detail.js}"></script>
+
+</body>
+</html>
